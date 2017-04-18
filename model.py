@@ -14,7 +14,7 @@ images = []
 measurements = []
 for line in lines:
     # set correction parameter for left and right cameras
-    correction = 0.2 
+    correction = 0.2
     steering_center = float(line[3])
     for i in range(3):
         source_path = line[i]
@@ -23,10 +23,13 @@ for line in lines:
         image = cv2.imread(current_path)
         images.append(image)
         if i == 0:
+            # center camera
             measurement = steering_center
-        elif i == 1:
+        elif i == 1: 
+            # left camera
             measurement = steering_center + correction
         else:
+            # right camera
             measurement = steering_center - correction
         measurements.append(measurement)
 
@@ -42,7 +45,7 @@ X_train = np.array(augmented_images)
 y_train = np.array(augmented_measurements)
 
 from keras.models import Sequential
-from keras.layers import Flatten, Dense, Lambda, Activation, Cropping2D
+from keras.layers import Flatten, Dense, Lambda, Activation, Cropping2D, Dropout
 from keras.layers.convolutional import Convolution2D
 from keras.layers.pooling import MaxPooling2D
 
@@ -58,13 +61,15 @@ model.add(Convolution2D(48,5,5, subsample=(2,2), activation="relu"))
 model.add(Convolution2D(64,3,3, activation="relu"))
 model.add(Convolution2D(64,3,3, activation="relu"))
 model.add(Flatten())
+model.add(Dense(250))
+model.add(Dropout(0.9))
 model.add(Dense(100))
 model.add(Dense(50))
 model.add(Dense(10))
 model.add(Dense(1))
  
 model.compile(loss='mse', optimizer='adam')
-model.fit(X_train, y_train, batch_size=64, nb_epoch=2, validation_split=0.2, shuffle=True)
+model.fit(X_train, y_train, batch_size=64, nb_epoch=3, validation_split=0.2, shuffle=True)
 
 # save trained model
 model.save('model.h5')
