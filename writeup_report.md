@@ -77,7 +77,7 @@ For details about how I created the training data, see the next section.
 
 My first step was to use a fully-connected neural network with no hidden layer, to get started quickly. In order to gauge how well the model was working, I split my image and steering angle data into a training (80%) and validation set (20%). I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
 
-I then used a convolution neural network model similar to the LeNet-5 architecture. I thought this model might be appropriate because it's widely used in Computer Vision and I had used it the the Traffic Sign Classifier project.
+I then used a convolution neural network with the LeNet-5 architecture. I thought this model might be appropriate because it's widely used in Computer Vision and I had used it the the Traffic Sign Classifier project.
 To combat the overfitting, I modified the model by adding a dropout layer. I then found out that I had a high mean squared error on the training set and on the validation set. This implied that the model with LeNet architecture was underfitting.
 I tested the LeNet model in the simulator and the car fell off track 1 after a few seconds.
 
@@ -119,26 +119,35 @@ The final model architecture (model.py lines 52-69) consisted of a convolution n
 
 To capture good driving behavior, I first recorded one full lap on track 1, going in the opposite directions and using center lane driving. 
 Here is an example image of center lane driving:
+
 ![alt text][image1]
+
 I trained my inital LeNet-5 architecture on this training dataset, which failed to complete track 1.
 
 To augment the dataset, I then flipped all images and inversed corresponding steering angles thinking that this would remove the right-turn bias from Track 1 in the opposite direction (model.py lines 36-42).
 Here is an example image that has then been flipped:
+
 ![alt text][image2]
 ![alt text][image3]
+
 My LeNet-5 architecture was still failing to complete track 1.
 
 To augment the dataset even more, I used the images captured by the left and right cameras as well and set their respective steering angle to the center image steering angle plus or minus a correction of 0.2 (model.py lines 12-34).
 Here are example images taken simultaneously from the left, center and right cameras respectively:
+
 ![alt text][image4]
 ![alt text][image5]
 ![alt text][image6]
+
 My LeNet-5 architecture was still failing to complete track 1.
 
 To remove noise (sky, trees, car hood, etc.) from the top and bottom pixels of the images, I cropped 70 pixels from the top and 25 pixels from the bottom of all images passed through the model (model.py line 57).
 Here is an example image before and after being cropped:
+
 ![alt text][image2]
+
 ![alt text][image7]
+
 My LeNet-5 architecture was still failing to complete track 1.
 
 I decided to change my convolutional neural network architecture from LeNet to [this one from Nvidia](https://arxiv.org/pdf/1604.07316.pdf).
@@ -150,9 +159,11 @@ The Nvidia architecture finally succeeded to complete track 2, but was now faili
 
 Finally, I recorded the vehicle recovering from the left and right sides of the road back to center a dozen of times on track 1 only, so that the vehicle would learn to recover to the center rather than exit the road.
 These images show what a recovery looks like :
+
 ![alt text][image8]
 ![alt text][image9]
 ![alt text][image10]
+
 The Nvidia architecture finally succeeded to complete both track 1 and 2. 
 
 With the final collection process, I had a training dataset of 12,786 images and steering angles.
