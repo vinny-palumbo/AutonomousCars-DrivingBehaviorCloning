@@ -2,6 +2,8 @@
 
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013)
 
+![alt text][image10]
+
 Overview
 ---
 In this project, I've used what I've learned about deep neural networks and convolutional neural networks to clone driving behavior. I've trained, validated and tested a model using Keras. The model outputs a steering angle to an autonomous vehicle.
@@ -82,3 +84,8 @@ python video.py run1 --fps 48
 ```
 
 The video will run at 48 FPS. The default FPS is 60.
+
+
+
+[//]: # (Image References)
+[image10]: ./videos/demo.gif "Demo"
